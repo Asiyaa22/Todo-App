@@ -16,16 +16,24 @@ db.connect();
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
 
-app.get("/", (req, res) => {
-   res.render("index.ejs");
+app.get("/", async(req, res) => {
+   const result = await db.query("SELECT * FROM items");
+   // console.log(result.rows);
+
+   res.render("index.ejs", {
+    todos: result.rows
+   });
 });
 
 app.post("/add", async(req, res) => {
-   const data = req.body;
-   console.log(data);
+   const input = req.body["todo"];
+   console.log(input);
+   const result = await db.query("INSERT INTO items (item) VALUES ($1)", [input])
    res.redirect("/");
 });
+//Successfully Inserted data
 
 app.post("/edit", (req, res) => {
 
@@ -36,5 +44,5 @@ app.post("/delete", (req, res) => {
 });
 
 app.listen(3000, () => {
-   console.log(`sserver is running on port ${port}`);
+   console.log(`server is running on port ${port}`);
 });

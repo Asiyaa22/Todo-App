@@ -27,3 +27,13 @@ input {
     border-bottom: 1px solid black;
     padding: 5px;
 }
+/* .items {
+    background-color: antiquewhite;
+    height: 70%;
+    display: flex;
+    align-items: center;
+    
+} */
+li {
+    list-style: none;
+}

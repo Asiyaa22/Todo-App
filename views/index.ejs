@@ -13,10 +13,28 @@
 <body>
     <h1>To do App</h1>
     <h3>My today's todo list</h3>
+    <div class="items">
+        <ul>
+            <% todos.forEach(function(todo) { %>
+                <li><input type="checkbox" name="" id=""> <%= todo.item %>  <i class="ri-pencil-line"></i></li>
+            <% }); %>
+        </ul>
+        <!-- <% todos.forEach(todo => { %>
+        <form action="/delete" method="post">
+           <input type="checkbox" name="list" id="box">
+        </form>
+        <p><%= todo.item %></p>
+        <% }); %> -->
+    </div>
+
     <form action="/add" method="post">
         <input type="text" name="todo" id="" placeholder="Enter your work">
         <button type="submit">Add <i class="ri-add-circle-line"></i></button>
     </form>
-    <i class="ri-pencil-line"></i>
+
+    <form action="/edit" method="post">
+        
+    </form>
+   
 </body>
 </html>
