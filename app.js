@@ -33,14 +33,36 @@ app.post("/add", async(req, res) => {
    const result = await db.query("INSERT INTO items (item) VALUES ($1)", [input])
    res.redirect("/");
 });
+
 //Successfully Inserted data
 
-app.post("/edit", (req, res) => {
-
+app.post("/edit", async(req, res) => {
+   const item = req.body.updateItem;
+   const id = req.body.updateId;
+   console.log(`id is, ${id}`);
+   console.log(`item is ${item}`);
+   const result = await db.query("UPDATE items SET item = ($1)  WHERE id = $2", [item, id]);
+   res.redirect("/");
 });
 
-app.post("/delete", (req, res) => {
-
+app.post("/delete", async(req, res) => {
+   // const id = req.body.deleteIt;
+   // ye wali liye toh undefined aara
+   const id = req.body.deleteItem;
+   // now this is working fyn
+   console.log("ye hai id:", id);
+   console.log("Bhai nakko nakko.....khatam gaya delete hogaya mai");
+    // Check if input has a valid value
+    if (id) {
+      try {
+         await db.query("DELETE FROM items WHERE id = $1", [id]);
+      } catch (error) {
+          console.log("Error deleting item:", error);
+      }
+  } else {
+      console.log("Invalid input: empty deleteItem value");
+  }
+   res.redirect("/");
 });
 
 app.listen(3000, () => {

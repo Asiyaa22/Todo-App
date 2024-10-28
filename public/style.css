@@ -34,6 +34,14 @@ input {
     align-items: center;
     
 } */
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+form.edit {
+    display: flex;
+}
 li {
     list-style: none;
 }

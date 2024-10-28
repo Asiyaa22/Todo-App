@@ -7,34 +7,48 @@
     <link rel="stylesheet" href="style.css">
     <link
     href="https://cdn.jsdelivr.net/npm/remixicon@4.4.0/fonts/remixicon.css"
-    rel="stylesheet"
-/>
+    rel="stylesheet"/>
 </head>
 <body>
     <h1>To do App</h1>
     <h3>My today's todo list</h3>
-    <div class="items">
-        <ul>
-            <% todos.forEach(function(todo) { %>
-                <li><input type="checkbox" name="" id=""> <%= todo.item %>  <i class="ri-pencil-line"></i></li>
-            <% }); %>
-        </ul>
-        <!-- <% todos.forEach(todo => { %>
-        <form action="/delete" method="post">
-           <input type="checkbox" name="list" id="box">
+    <div class="box">
+        <% todos.forEach(function(todo){ %>
+        <form class="delete" action="/delete" method="post">
+            <div class="todo-item">
+                <input type="checkbox" onchange="this.form.submit()" name="deleteItem" value="<%= todo.id %>">
+                <span id="task<%= todo.id %>"><%= todo.item %></span>
         </form>
-        <p><%= todo.item %></p>
-        <% }); %> -->
-    </div>
-
-    <form action="/add" method="post">
-        <input type="text" name="todo" id="" placeholder="Enter your work">
-        <button type="submit">Add <i class="ri-add-circle-line"></i></button>
-    </form>
-
-    <form action="/edit" method="post">
+            <!-- Ye Update ki logic hai -->
+    
+            <form class="edit" action="/edit" method="post">
+                <input type="hidden" name="updateId" value="<%=todo.id %>">
+                <!-- ye jo hai na ek input jiska type hidden -->
+                <input type="text" name="updateItem" id="input<%=todo.id%>" hidden="true" value="<%todo.item%>">
+                <!-- ye text wala input jo k hidden rehta then we do remove attribute -->
+                <button type="submit" id="done<%=todo.id %>" hidden="true"><i class="ri-check-line"></i></button>
+                <!-- ye button b hidden rehta then we do remove attribute -->
+                <button type="button" id="edit<%=todo.id %>" onclick="handler('<%=todo.id%>')">📝</button>            
+            </form>
+        </div>
+        <% }); %>
         
-    </form>
-   
+
+        <!-- ye add ka logic hai -->
+
+        <form action="/add" method="post">
+            <input type="text" name="todo" id="" placeholder="Enter your task">
+            <button type="submit">Add <i class="ri-add-circle-line"></i></button>
+        </form>
+    </div>
+    <script>
+        function handler(id){
+            console.log("Editing item ID:", id);
+            document.getElementById("task" + id).setAttribute("hidden", true);
+            document.getElementById("edit" + id).setAttribute("hidden", true);
+            document.getElementById("done" + id).removeAttribute("hidden");
+            document.getElementById("input" + id).removeAttribute("hidden");
+        }
+    </script>
 </body>
 </html>
